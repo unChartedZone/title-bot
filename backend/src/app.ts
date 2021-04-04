@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import cors from 'cors';
+import cheerio from 'cheerio';
 import mongoose, { Schema, Model } from 'mongoose';
 
 import DbManager, { Record } from './dbManager';
@@ -27,6 +28,27 @@ app.post('/titles', async (req: Request, res: Response) => {
       status: 'error',
     });
   }
+
+  const $ = cheerio.load(html);
+  const title = $('title').text();
+
+  let existingRecord = await Record.findOne({ url: url });
+
+  if (existingRecord) {
+    return res.send({
+      message: 'Warning: URL already recorded.',
+      status: 'warning',
+    });
+  }
+
+  const newRecord = new Record({ url, title });
+  try {
+    await newRecord.save();
+  } catch (e) {
+    console.log('Error saving record to db: ', e);
+  }
+
+  return res.send({ url, title });
 });
 
 app.listen(port, () => {
