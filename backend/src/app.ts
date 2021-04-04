@@ -15,6 +15,18 @@ DbManager.connectDb();
 
 const port = process.env.PORT || 8081;
 
+app.get('/titles', async (req: Request, res: Response) => {
+  let records = await Record.find({}, { __v: 0 });
+  if (!records) {
+    return res.send({
+      message: 'Warning: No records.',
+      status: 'warning',
+    });
+  }
+
+  return res.json(records);
+});
+
 app.post('/titles', async (req: Request, res: Response) => {
   let { url } = req.body;
   let html = '';
