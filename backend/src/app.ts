@@ -62,7 +62,19 @@ app.post('/titles', async (req: Request, res: Response) => {
   }
 });
 
-  return res.send({ url, title });
+app.delete('/titles/:id', async (req: Request, res: Response) => {
+  let { id } = req.params;
+
+  try {
+    let result = await Record.findOneAndDelete({ _id: id });
+    return res.send(result);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).send({
+      message: 'Error: Something went wrong deleting record.',
+      status: 'error',
+    });
+  }
 });
 
 app.listen(port, () => {
