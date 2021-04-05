@@ -42,7 +42,7 @@ app.post('/titles', async (req: Request, res: Response) => {
   }
 
   const $ = cheerio.load(html);
-  const title = $('title').text();
+  const title = $('head > title').text();
 
   let existingRecord = await Record.findOne({ url: url });
 
@@ -55,10 +55,12 @@ app.post('/titles', async (req: Request, res: Response) => {
 
   const newRecord = new Record({ url, title });
   try {
-    await newRecord.save();
+    let savedRecord = await newRecord.save();
+    return res.send(savedRecord);
   } catch (e) {
     console.log('Error saving record to db: ', e);
   }
+});
 
   return res.send({ url, title });
 });
