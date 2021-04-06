@@ -1,5 +1,25 @@
 version: '3.7'
 services:
+  frontend:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    volumes:
+      - /app/node_modules # Dont override this folder
+      - ./frontend:/app
+    ports:
+      - 8080:8080
+  backend:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    volumes:
+      - /app/node_modules # Dont override this folder
+      - ./backend:/app
+    ports:
+      - 8081:8081
   mongo:
     image: mongo:latest
     restart: always
@@ -8,3 +28,5 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - '$HOME/docker/volumes/mongo:/data/db'
