@@ -31,6 +31,8 @@ app.post('/titles', async (req: Request, res: Response) => {
   let { url } = req.body;
   let html = '';
 
+  url = addhttp(url);
+
   try {
     let result = await axios.get(url);
     html = result.data;
@@ -76,6 +78,13 @@ app.delete('/titles/:id', async (req: Request, res: Response) => {
     });
   }
 });
+
+function addhttp(url: string) {
+  if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+    url = 'http://' + url;
+  }
+  return url;
+}
 
 app.listen(port, () => {
   console.log(`Listening on Port: ${port}`);

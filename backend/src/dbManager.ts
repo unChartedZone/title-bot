@@ -3,7 +3,7 @@ import mongoose, { Schema, Model } from 'mongoose';
 class DbManager {
   static async connectDb() {
     try {
-      await mongoose.connect('mongodb://localhost:27017/', {
+      await mongoose.connect('mongodb://mongo:27017/', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         dbName: 'titlebot',
