@@ -12,7 +12,8 @@
           name="url"
           type="text"
           v-model="urlInput"
-          placeholder="URL"
+          label="URL"
+          placeholder="http://example.com"
         />
         <Button type="submit" :loading="loading">Fetch</Button>
       </form>
@@ -31,6 +32,7 @@
         />
       </transition-group>
     </div>
+    <Snackbar v-model="snackBar.show" :message="snackBar.message" :color="snackBar.color" />
   </main>
 </template>
 
@@ -39,6 +41,7 @@ import http from './axios';
 
 import Button from './components/Button';
 import ListItem from './components/ListItem';
+import Snackbar from './components/Snackbar'
 import TextField from './components/TextField';
 
 export default {
@@ -46,6 +49,7 @@ export default {
   components: {
     Button,
     ListItem,
+    Snackbar,
     TextField,
   },
   data() {
@@ -53,6 +57,11 @@ export default {
       urlInput: '',
       records: [],
       loading: false,
+      snackBar: {
+        show: false,
+        message: '',
+        color: '',
+      },
     };
   },
   async mounted() {
@@ -64,7 +73,10 @@ export default {
       this.records = res.data;
     },
     async storeRecord() {
-      if (this.urlInput === '') return;
+      if (this.urlInput === '') {
+        this.setSnackbar('Please enter a URL', 'warning');
+        return;
+      }
 
       this.loading = true;
 
@@ -73,26 +85,37 @@ export default {
           url: this.urlInput,
         });
 
-        console.log('Data: ', data);
+        if(data.message) {
+          this.setSnackbar(data.message, data.status)
+          return
+        }
 
         this.records.push(data);
 
         this.urlInput = '';
       } catch (e) {
         console.log(e);
+
+        const {message, status} = e.response.data;
+        this.setSnackbar(message, status);
       } finally {
+        this.urlInput = ''
         this.loading = false;
       }
     },
     async deleteRecord(id, index) {
       try {
-        let result = await http.delete(`/titles/${id}`);
+        await http.delete(`/titles/${id}`);
         this.records.splice(index, 1);
-        console.log('Deleted: ', result);
       } catch (e) {
         console.log('Error deleting record: ', e);
       }
     },
+    setSnackbar(message, color) {
+      this.snackBar.message = message;
+      this.snackBar.color = color;
+      this.snackBar.show = true;
+    }
   },
 };
 </script>

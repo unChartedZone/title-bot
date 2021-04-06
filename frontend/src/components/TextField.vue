@@ -1,8 +1,9 @@
 <template>
+<div>
+  <label class="text-lg font-bold ml-1" :for="name">{{label}}</label>
   <div
     class="border border-gray-300 rounded-lg px-3 py-2 focus-within:border-purple-500"
   >
-    <label>{{ label }}</label>
     <input
       class="w-full outline-none"
       v-bind="$attrs"
@@ -11,9 +12,9 @@
       :placeholder="placeholder"
       :name="name"
       :pattern="pattern"
-      v-validate="email"
     />
   </div>
+</div>
 </template>
 
 <script>
