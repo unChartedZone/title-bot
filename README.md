@@ -15,3 +15,6 @@ Tailwind UI to display the app to the user in a pleasant manner.
   run `npm install` in each directory,
 
 3. Head over to your browser, and go to `localhost:8081`
+
+## Quicklook
+![Screenshot of Titlebot App](./screenshot.png)
