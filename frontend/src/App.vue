@@ -5,7 +5,7 @@
         Title Bot
       </h1>
       <form
-        class="sm:w-2/5 space-y-4 mx-4 sm:mx-auto my-12"
+        class="lg:w-2/5 space-y-4 mx-4 sm:mx-auto my-12"
         @submit.prevent="storeRecord"
       >
         <TextField
@@ -20,7 +20,7 @@
       <transition-group
         name="list-complete"
         tag="ul"
-        class="sm:w-2/5 space-y-8 my-8 mx-4 sm:mx-auto"
+        class="lg:w-2/5 space-y-8 my-8 mx-4 sm:mx-auto"
       >
         <ListItem
           v-for="(record, index) in records"
