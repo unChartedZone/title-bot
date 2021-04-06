@@ -11,8 +11,8 @@ Tailwind UI to display the app to the user in a pleasant manner.
 1. Clone the project onto your machine.
 2. If you using docker & docker-compose run the command `docker-compose up`
 
-- If not using docker, then tranverse to frontend and backend folder and
-  run `npm install` in each directory,
+- If not using docker, then tranverse to `frontend` and `backend` folder and
+  run `npm install` in each directory.
 
 3. Head over to your browser, and go to `localhost:8081`
 
