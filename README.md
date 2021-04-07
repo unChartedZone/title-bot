@@ -14,7 +14,7 @@ Tailwind UI to display the app to the user in a pleasant manner.
 - If not using docker, then tranverse to `frontend` and `backend` folder and
   run `npm install` in each directory.
 
-3. Head over to your browser, and go to `localhost:8081`
+3. Head over to your browser, and go to `http://localhost:8080`
 
 ## Quicklook
 ![Screenshot of Titlebot App](./screenshot.png)
